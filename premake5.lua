@@ -1,12 +1,9 @@
-project "Comet"
+project "yaml-cpp"
     kind "StaticLib"
     language "C++"
-    cppdialect "C++17"
-    staticruntime "on"
-    systemversion "latest"
 
-    targetdir ("%{wks.location}/bin/" .. outputDirectory .. "/%{prj.name}")
-    objdir ("%{wks.location}/bin-int/" .. outputDirectory .. "/%{prj.name}")
+    targetdir ("bin/" .. outputDirectory .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputDirectory .. "/%{prj.name}")
 
     files
     {
@@ -21,11 +18,22 @@ project "Comet"
         "include"
     }
 
-    filter "configurations:Debug"
-        symbols "On"
-        runtime "Debug"
+    filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++17"
+		staticruntime "On"
 
-    filter "configurations:Release"
-        optimize "on"
-        runtime "Release"
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++17"
+		staticruntime "On"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
 
